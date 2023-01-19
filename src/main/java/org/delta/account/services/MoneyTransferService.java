@@ -1,6 +1,8 @@
 package org.delta.account.services;
 
 import org.delta.account.BaseAccount;
+import org.delta.card.CreditCard;
+import org.delta.card.CreditCardCreatorService;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
@@ -13,6 +15,10 @@ public class MoneyTransferService {
     private MoneyTransferLoggingService moneyTransferLoggingService;
     @Inject
     private CheckService checkService;
+
+    @Inject
+    private CreditCardCreatorService creditCardService;
+
 
     public MoneyTransferService() {
         this.bankFeeCalculator = new BankFeeCalculator();
@@ -48,6 +54,19 @@ public class MoneyTransferService {
         float transferFee = this.bankFeeCalculator.calculateTransferFee(check.account);
         check.account.subFromBalance(transferFee);
         checkService.useCheck(check);
+    }
+
+    public void getMoneyWithCreditCard(CreditCard card, float ammount) {
+
+        float subtract = creditCardService.useCreditCard(card, ammount);
+        // log the transfer
+        //   moneyTransferLoggingService.logTransfer(sourceAccount, targetAccount, amount);
+        // check
+        card.baseAccount.subFromBalance(subtract);
+
+        float transferFee = this.bankFeeCalculator.calculateTransferFee(card.baseAccount);
+        card.baseAccount.subFromBalance(transferFee);
+
     }
 
 }

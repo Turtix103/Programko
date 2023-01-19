@@ -2,6 +2,7 @@ package org.delta.account;
 
 import org.delta.account.services.Check;
 import org.delta.card.BaseCard;
+import org.delta.card.CreditCard;
 import org.delta.person.Person;
 
 import java.util.HashMap;
@@ -38,6 +39,8 @@ public class BaseAccount {
 
     private Map<String, BaseCard> cards = new HashMap<>();
 
+    private Map<String, CreditCard> creditCards = new HashMap<>();
+
     private Map<String, Check> checks = new HashMap<>();
 
     public BaseAccount(String accountNumber, Person owner, float balance) {
@@ -68,6 +71,9 @@ public class BaseAccount {
 
     public void addCard(BaseCard card) {
         this.cards.put(card.getCardNumber(), card);
+    }
+    public void addCreditCard(CreditCard card) {
+        this.creditCards.put(card.getCardNumber(), card);
     }
 
     public void addCheck(Check check) {

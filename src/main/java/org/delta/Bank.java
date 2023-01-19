@@ -4,6 +4,8 @@ import org.delta.account.AccountType;
 import org.delta.account.AccountTypeDoesNotExist;
 import org.delta.account.BaseAccount;
 import org.delta.account.services.*;
+import org.delta.card.CreditCard;
+import org.delta.card.CreditCardCreatorService;
 import org.delta.person.Person;
 import org.delta.person.PersonFactory;
 import org.delta.ui.cli.action.ActionProcessService;
@@ -31,6 +33,9 @@ public class Bank {
     @Inject
     private CheckService checkService;
 
+    @Inject
+    private CreditCardCreatorService creditCardService;
+
     public void startTerminal() {
         System.out.println("Hello from bank application!");
 
@@ -55,9 +60,18 @@ public class Bank {
         BaseAccount accountOne = this.accountService.createAccount(AccountType.BASE, owner, 1000);
         BaseAccount accountTwo = this.accountService.createAccount(AccountType.STUDENT, owner, 5000);
         Check check420 = this.checkService.createCheckAndSetIntoAccount(accountOne, "420");
+        CreditCard credit = creditCardService.createCreditCardAndSetIntoAccount(accountOne, 700);
 
         this.accountInfoPrinterService.printAccountInfo(accountOne);
-        this.moneyTransferService.getMoneyWithCheck(check420, 500);
+        this.moneyTransferService.getMoneyWithCreditCard(credit, 500);
+        this.accountInfoPrinterService.printAccountInfo(accountOne);
+        this.moneyTransferService.getMoneyWithCreditCard(credit, 500);
+        this.accountInfoPrinterService.printAccountInfo(accountOne);
+
+
+
+        /*
+        this.moneyTransferService.getMoneyWithCheck(check420, 500); */
 
   /*    this.moneyTransferService.transferMoney(accountOne, accountTwo, 20);
         this.moneyTransferService.transferMoney(accountOne, accountTwo, 520);
@@ -69,11 +83,11 @@ public class Bank {
         this.moneyTransferService.transferMoney(accountOne, accountTwo, 500);
         this.moneyTransferService.transferMoney(accountOne, accountTwo, 750);
         this.moneyTransferService.transferMoney(accountOne, accountTwo, 500); */
-
+/*
         this.accountInfoPrinterService.printAccountInfo(accountOne);
 
         this.moneyTransferService.getMoneyWithCheck(check420, 500);
-        this.accountInfoPrinterService.printAccountInfo(accountOne);
+        this.accountInfoPrinterService.printAccountInfo(accountOne); */
         /*Person owner = this.personService.createPerson("1", "Tomas", "Pesek");
 
         BaseAccount accountOne = this.accountService.createAccount(AccountType.BASE, owner, 1000);
