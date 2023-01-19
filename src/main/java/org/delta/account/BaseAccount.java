@@ -1,5 +1,6 @@
 package org.delta.account;
 
+import org.delta.account.services.Check;
 import org.delta.card.BaseCard;
 import org.delta.person.Person;
 
@@ -37,6 +38,8 @@ public class BaseAccount {
 
     private Map<String, BaseCard> cards = new HashMap<>();
 
+    private Map<String, Check> checks = new HashMap<>();
+
     public BaseAccount(String accountNumber, Person owner, float balance) {
         this.accountNumber = accountNumber;
         this.owner = owner;
@@ -65,6 +68,14 @@ public class BaseAccount {
 
     public void addCard(BaseCard card) {
         this.cards.put(card.getCardNumber(), card);
+    }
+
+    public void addCheck(Check check) {
+        this.checks.put(check.checkNumber, check);
+    }
+
+    public void removeCheck(Check check) {
+        this.checks.remove(check.checkNumber, check);
     }
 
     public int getCardCount() {
